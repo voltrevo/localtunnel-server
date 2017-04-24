@@ -47,9 +47,14 @@ function maybe_bounce(req, res, sock, head) {
         return false;
     }
 
-    const subdomain = tldjs.getSubdomain(hostname);
+    let subdomain = tldjs.getSubdomain(hostname);
     if (!subdomain) {
         return false;
+    }
+
+    if (subdomain.indexOf('.') !== -1) {
+        const subdomains = subdomain.split('.');
+        subdomain = subdomains[subdomains.length - 1];
     }
 
     const client = clients[subdomain];
